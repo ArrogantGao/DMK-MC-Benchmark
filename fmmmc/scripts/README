@@ -1,0 +1,17 @@
+
+The important files in this directory are described here.
+
+alpha_opt.py:                   Utility to help determine the value of alpha for a machine.
+error_run.py:                   Utility to propose moves in DL_MONTE and our expansion implementations and record the
+                                computed energy difference of the move.
+make_dl_monte_inputs.py:        Functions for generating input files for DL_MONTE.
+plot_dlmc_diff_error.py:        Plots Figures 3, 4, 5 and 6 when ran in the prob_error_analysis directory.
+plot_dlmc_timing_comparison.py: Plots Figure 8 when ran in the dlmonte_compare directory.
+plot_speedup.py:                Plots Figures 7 and 9 when ran in the scripts directory.
+timing_func.py:                 Utility functions to time propose operations and accept operations.
+vary_number.py:                 Uses timing_func to produce raw data for Figure 7.
+
+
+deps: 
+numpy==1.26.4
+mpi4py==3.1.6

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# set name of job
+#SBATCH --job-name=ohai
+#SBATCH --output=job.%J.out
+#SBATCH --error=job.%J.err
+
+#SBATCH -N1 -n 1
+
+module load python gcc fftw openmpi
+
+# source ~/scratch/venvs/intel_mpi_test/bin/activate
+source /mnt/home/xgao1/venv/fmmmc/bin/activate
+
+module list
+
+export OMP_NUM_THREADS=1
+
+cd /mnt/home/xgao1/fmmmc/fmmmc/runtime
+mpirun -n 1 python /mnt/home/xgao1/fmmmc/scripts/vary_number.py fmmmc_pbc_local pbc --local
