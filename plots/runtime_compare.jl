@@ -1,7 +1,7 @@
 include("utils.jl")
 
 fmmmc_runtime = CSV.read("../fmmmc/runtime/fmmmc_pbc_local_tset_combined.csv", DataFrame)
-pdmk_runtime = CSV.read("../pdmk/runtime/pdmk_runtime.csv", DataFrame)
+pdmk_runtime = CSV.read("../pdmk/runtime/pdmk_runtime_float.csv", DataFrame)
 
 fmmmc_ns = unique(fmmmc_runtime.N)
 pdmk_ns = unique(pdmk_runtime.N)
@@ -25,11 +25,14 @@ end
 
 begin
     fig = Figure(size=(500, 450), fontsize=20)
-    ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10)
+    ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2)
 
     scatter!(ax, pdmk_ns, (pdmk_runtime.time_propose .+ pdmk_runtime.time_accept) .* 1000, label="PDMK", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
     scatter!(ax, fmmmc_ns, (fmmmc_runtime.local_propose .+ fmmmc_runtime.local_accept) .* 1000, label="FMM Local", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     # scatter!(ax, fmmmc_ns, (fmmmc_runtime.multipole_propose .+ fmmmc_runtime.multipole_accept) .* 1000, label="FMM Multipole", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
+
+    xlims!(ax, 10^(3.8), 10^(7.2))
+    ylims!(ax, 0.0, 1.2)
 
     Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=1, labelsize = 15)
 
