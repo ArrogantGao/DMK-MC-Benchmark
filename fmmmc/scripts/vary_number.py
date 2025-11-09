@@ -28,10 +28,9 @@ if __name__ == '__main__':
     name = sys.argv[1]
     bc = sys.argv[2]
     npoint = 30
-    nset = np.logspace(3, 6, npoint)
+    nset = np.logspace(4, 7, npoint)
     
-    tset_local = []
-    tset_multipole = []
+    tset_combined = []
 
     for N in nset:
         N = int(N)
@@ -43,7 +42,7 @@ if __name__ == '__main__':
         gc.collect()
 
 
-        tset_local.append((N, l[0], l[1], l[2], l[3]))
+        tset_local_results = (l[0], l[1], l[2], l[3])
 
         gc.disable()
         time.sleep(2)
@@ -51,25 +50,16 @@ if __name__ == '__main__':
         gc.enable()
         gc.collect()        
 
-        tset_multipole.append((N, m[0], m[1], m[2], m[3]))
-        print(N, "|", l[0], l[1], l[2], l[3], "|", m[0], m[1], m[2], m[3])
+        tset_multipole_results = (m[0], m[1], m[2], m[3])
+        
+        tset_combined.append((N,) + (l[4],) + tset_local_results + tset_multipole_results)
+        print(N, l[4], "|", l[0], l[1], l[2], l[3], "|", m[0], m[1], m[2], m[3])
     
 
 
-    lname = name + '_tset_local.npy'
-    mname = name + '_tset_multipole.npy'
+    combined_name = name + '_tset_combined.csv'
 
-    tset_local = np.array(tset_local)
-    if os.path.exists(lname):
-        to = np.load(lname)
-        tset_local = np.minimum(tset_local, to)
+    tset_combined = np.array(tset_combined)
 
-    np.save(lname, tset_local)
-
-    tset_multipole = np.array(tset_multipole)
-    if os.path.exists(mname):
-        to = np.load(mname)
-        tset_multipole = np.minimum(tset_multipole, to)
-
-    np.save(mname, tset_multipole)
+    np.savetxt(combined_name, tset_combined, delimiter=',', header='N,e,local_propose,local_accept,local_R,local_time,multipole_propose,multipole_accept,multipole_R,multipole_time')
 

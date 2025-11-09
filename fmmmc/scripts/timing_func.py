@@ -119,6 +119,6 @@ def timing_1(bc, method, N, N_propose=1000, N_accept=1000, R=None, local=False):
 
     MC.free()
 
-    return t_propose, t_accept, R, ti1 - ti0
+    return t_propose, t_accept, R, ti1 - ti0, e
 
 
