@@ -1,0 +1,7 @@
+[deps]
+Molly = "aa0f7f06-fcc0-5ec4-a7f3-a573f33f9c4c"
+PDMK4MC = "e4c8b4d2-5072-4abd-9b0d-7efcb1a2c66b"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+
+[extras]
+MPIPreferences = "3da0fdf6-3ccc-4f1b-acd9-58baa6c99267"
