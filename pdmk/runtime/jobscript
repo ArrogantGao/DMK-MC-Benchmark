@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # set name of job
-#SBATCH --job-name=fmmmmc_benchmark
+#SBATCH --job-name=pdmk_runtime_benchmark
 #SBATCH --output=job.%J.out
 #SBATCH --error=job.%J.err
 
+#SBATCH -p ccm
 #SBATCH -N1 -n 1
 
 module load gcc fftw openmpi
