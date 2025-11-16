@@ -10,7 +10,7 @@ linestyle = [:solid, :dash, :dot, :dashdot, :dashdotdot]
 linewidth = 2
 markerstyle = [:rect, :circle, :diamond, :utriangle, :dtriangle, :rtriangle, :ltriangle]
 strokecolor = :black
-strokewidth = 0.5
+strokewidth = 1.0
 
 function geometric_mean(x)
     return prod(Float64.(x))^(1/length(x))
@@ -24,3 +24,7 @@ end
 
 hstyle = :dot
 hwidth = 1.5
+
+function geometric_mean(x)
+    return prod(Float64.(x))^(1/length(x))
+end
