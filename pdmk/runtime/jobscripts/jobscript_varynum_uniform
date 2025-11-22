@@ -15,4 +15,4 @@ module list
 export OMP_NUM_THREADS=64
 
 cd /mnt/home/xgao1/work/PDMK4MC_Benchmark/pdmk/runtime
-julia --project=/mnt/home/xgao1/work/PDMK4MC_Benchmark/pdmk vary_number.jl
+julia --project=/mnt/home/xgao1/work/PDMK4MC_Benchmark/pdmk vary_number_uniform.jl

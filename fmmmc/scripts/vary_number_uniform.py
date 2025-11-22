@@ -18,7 +18,7 @@ import gc
 
 import sys
 
-from timing_func import timing_1
+from timing_func import timing_uniform
 
 
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         
         gc.disable()
         time.sleep(2)
-        l = timing_1(bc, mc_fmm_lm.MCFMM_LM, N)
+        l = timing_uniform(bc, mc_fmm_lm.MCFMM_LM, N)
         gc.enable()
         gc.collect()
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
         gc.disable()
         time.sleep(2)
-        m = timing_1(bc, mc_fmm_mm.MCFMM_MM, N)
+        m = timing_uniform(bc, mc_fmm_mm.MCFMM_MM, N)
         gc.enable()
         gc.collect()        
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     
 
 
-    combined_name = name + '_tset_combined.csv'
+    combined_name = name + '_uniform.csv'
 
     tset_combined = np.array(tset_combined)
 

@@ -6,6 +6,7 @@
 #SBATCH --error=job.%J.err
 
 #SBATCH -N1 -n 1
+#SBATCH -p ccm
 
 module load python gcc fftw openmpi
 
@@ -18,4 +19,4 @@ export OMP_NUM_THREADS=1
 export MPLCONFIGDIR=$(pwd)/.cache
 
 cd /mnt/home/xgao1/work/PDMK4MC_Benchmark/fmmmc/runtime
-mpirun -n 1 python /mnt/home/xgao1/work/PDMK4MC_Benchmark/fmmmc/scripts/vary_number.py fmmmc_pbc_local pbc --local
+mpirun -n 1 python /mnt/home/xgao1/work/PDMK4MC_Benchmark/fmmmc/scripts/vary_number_uniform.py fmmmc_pbc_local pbc --local
