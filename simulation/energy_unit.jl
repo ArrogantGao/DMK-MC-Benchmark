@@ -1,9 +1,11 @@
 using Molly, PDMK4MC
 
-n_atoms = 1000
+n_atoms = 500
 
 charges = randn(n_atoms)
 charges .-= sum(charges) / n_atoms
+
+sum(charges)
 
 atoms = [Atom(mass=1.0u"g/mol", charge=charges[i], σ=0.5u"nm", ϵ=1.0u"kJ/mol") for i in 1:n_atoms]
 boundary = CubicBoundary(30.0u"nm", 30.0u"nm", 30.0u"nm")
@@ -18,30 +20,31 @@ for i in 1:n_atoms
     end
 end
 
-params = PDMK4MC.HPDMKParams(L = 30.0, digits = 3, n_per_leaf = 10, init = PDMK4MC.DIRECT)
+params = PDMK4MC.HPDMKParams(L = 30.0, digits = 6, n_per_leaf = 10, init = PDMK4MC.DIRECT)
 tree = PDMK4MC.create_tree(coords_val, charges; params = params)
+
+energy_dmk = PDMK4MC.eval_energy(tree) * 138.935457644u"kJ/mol"
+
+
+d = 5.0u"nm"
+ewald_short = CoulombEwald(dist_cutoff = d, use_neighbors = true)
+ewald_long = Ewald(d)
 
 sys = System(
     atoms=atoms,
     coords=coords,
     boundary=boundary,
-    pairwise_inters=pairwise_inters,
-    loggers=(
-        coords=CoordinatesLogger(n_atoms, dims=3),
-        montecarlo=MonteCarloLogger(),
+    # pairwise_inters=(ewald_short,),
+    # general_inters=(ewald_long,),
+    pairwise_inters=(LennardJones(cutoff=DistanceCutoff(d), shift = true),),
+    neighbor_finder=DistanceNeighborFinder(
+        eligible=trues(n_atoms, n_atoms),
+        n_steps=10,
+        dist_cutoff=d,
     ),
 )
 
-trial_args = Dict(:shift_size => 0.3u"nm")
-sim = MetropolisMonteCarloPDMK(;
-    temperature=300.0u"K",
-    trial_moves=random_uniform_translation,
-    trial_args=trial_args,
-    tree=tree,
-)
+energy_ewald = potential_energy(sys)
 
-simulate!(sys, sim, 10_000)
+
 PDMK4MC.destroy_tree!(tree)
-
-println(sys.loggers.montecarlo.n_accept)
-
