@@ -7,5 +7,9 @@ PDMK4MC = "e4c8b4d2-5072-4abd-9b0d-7efcb1a2c66b"
 ParticleMeshEwald = "cd47a632-4c33-49da-880f-bcc568aa1a40"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
+[sources]
+PDMK4MC = {path = "/mnt/home/xgao1/codes/PDMK4MC/julia/"}
+ParticleMeshEwald = {path = "/mnt/home/xgao1/codes/ParticleMeshEwald.jl/"}
+
 [extras]
 MPIPreferences = "3da0fdf6-3ccc-4f1b-acd9-58baa6c99267"
