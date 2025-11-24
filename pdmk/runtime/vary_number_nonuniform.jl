@@ -46,7 +46,7 @@ function main()
             time_propose = 0.0
             time_accept = 0.0
 
-            n_trials = 1000
+            n_trials = 10000
             for i in 1:n_trials
 
                 idx = rand(1:N)
