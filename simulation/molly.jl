@@ -11,10 +11,11 @@ struct MetropolisMonteCarloPDMK{T, M, TE}
     eps_r::TE
     reconstruct::Int
     print_interval::Int
+    energy_file
 end
 
-function MetropolisMonteCarloPDMK(; temperature, trial_moves, trial_args, eps_r, reconstruct, print_interval)
-    return MetropolisMonteCarloPDMK(temperature, trial_moves, trial_args, eps_r, reconstruct, print_interval)
+function MetropolisMonteCarloPDMK(; temperature, trial_moves, trial_args, eps_r, reconstruct, print_interval, energy_file)
+    return MetropolisMonteCarloPDMK(temperature, trial_moves, trial_args, eps_r, reconstruct, print_interval, energy_file)
 end
 
 @inline function Molly.simulate!(sys::System,
@@ -38,7 +39,7 @@ end
             PDMK4MC.form_incoming_pw!(tree_new)
             E_pdmk_new = PDMK4MC.eval_energy(tree_new) * 138.935457644u"kJ/mol" / sim.eps_r
 
-            println("recontstructed, step_n = $(step_n), E_pdmk_old = $(E_pdmk_old), E_pdmk_new = $(E_pdmk_new)")
+            @info "recontstructed, step_n = $(step_n), E_pdmk_old = $(E_pdmk_old), E_pdmk_new = $(E_pdmk_new)"
 
             E_pdmk_old = E_pdmk_new
             PDMK4MC.destroy_tree!(tree)
@@ -72,7 +73,7 @@ end
         end
 
         if step_n % sim.print_interval == 0
-            println("step_n = $(step_n), E_lj = $(E_old), E_elec = $(E_pdmk_old), E_total = $(E_old + E_pdmk_old)")
+            CSV.write(sim.energy_file, DataFrame(step_n = step_n, E_lj = E_old, E_elec = E_pdmk_old, E_total = E_old + E_pdmk_old), append=true)
         end
 
     end

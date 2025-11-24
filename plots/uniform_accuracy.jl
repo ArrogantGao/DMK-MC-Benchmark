@@ -40,7 +40,7 @@ function plot_accuracy!(df, ax)
     # errorbars!(ax, Ns, err_9_mean, err_9_mean .- err_9_min, err_9_max .- err_9_mean, color = colors[3], whiskerwidth = 10)
 
     # axislegend(ax_1, position=:lt)
-    ylims!(ax, 10^(-11), 10^(-2))
+    ylims!(ax, 10^(-11), 10^(-1))
     xlims!(ax, 10^(2.9), 10^(6.1))
 end
 
@@ -79,9 +79,14 @@ begin
     Legend(fig[0, :], ax_1, orientation=:horizontal, nbanks=1, labelsize = 18)
 
     ax_3 = Axis(fig[2, 1], xlabel = L"N", ylabel = L"$T$ (ms)", xscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]), yticks = (0.0:0.1:0.3, [L"0.0", L"0.1", L"0.2", L"0.3"]), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5))
-    ax_4 = Axis(fig[2, 2], xlabel = L"N", ylabel = L"$T$ (ms)", xscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]), yticks = (0.0:0.5:1.5, [L"0.0", L"0.5", L"1.0", L"1.5"]), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5))
+    ax_4 = Axis(fig[2, 2], xlabel = L"N", ylabel = L"$T$ (ms)", xscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]), yticks = (0.0:0.3:0.9, [L"0.0", L"0.3", L"0.6", L"0.9"]), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5))
     plot_runtime!(df_runtime, ax_3, 0.3)
-    plot_runtime!(df_runtime_nu, ax_4, 1.5)
+    plot_runtime!(df_runtime_nu, ax_4, 0.9)
+
+    text!(ax_1, 0, 1, space = :relative, text = "(a)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
+    text!(ax_2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
+    text!(ax_3, 0, 1, space = :relative, text = "(c)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
+    text!(ax_4, 0, 1, space = :relative, text = "(d)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 end
 
 fig

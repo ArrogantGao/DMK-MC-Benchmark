@@ -1,11 +1,13 @@
 using Molly, PDMK4MC
+using JLD2, CSV, DataFrames
 using Random
+using Logging
 
 Random.seed!(1234)
 
 include(joinpath(@__DIR__, "../molly.jl"))
-# logger = SimpleLogger(open(joinpath(@__DIR__, "NaCl_mc.log"), "w+"))
-# global_logger(logger)
+logger = SimpleLogger(open(joinpath(@__DIR__, "NaCl_mc.log"), "w+"))
+global_logger(logger)
 
 function main()
     n_atoms = 1000
@@ -47,18 +49,26 @@ function main()
         loggers=(
             coords=CoordinatesLogger(n_atoms, dims=3),
             montecarlo=MonteCarloLogger(),
+            # trajlo=TrajectoryWriter(100, joinpath(@__DIR__, "NaCl_mc"))
         ),
     )
 
-    trial_args = Dict(:shift_size => 0.1u"nm")
+    ef = joinpath(@__DIR__, "energy.csv")
+    CSV.write(ef, DataFrame(step_n = Int[], E_lj = Float64[], E_elec = Float64[], E_total = Float64[]))
+
+    trial_args = Dict(:shift_size => 0.3u"nm")
     sim = MetropolisMonteCarloPDMK(;
         temperature=300.0u"K",
         trial_moves=random_uniform_translation,
         trial_args=trial_args,
         eps_r=eps_r,
         reconstruct = 5000,
-        print_interval = 100
+        print_interval = 100,
+        energy_file = ef
     )
 
     simulate!(sys, sim, 500_000, tree)
+    jldsave(joinpath(@__DIR__, "NaCl_mc.jld2"), sys=sys)
 end
+
+main()
