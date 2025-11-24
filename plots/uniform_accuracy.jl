@@ -31,16 +31,16 @@ function plot_accuracy!(df, ax)
     end
 
     scatter!(ax, Ns, err_3_mean, label="3 digits", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth,)
-    errorbars!(ax, Ns, err_3_mean, err_3_mean .- err_3_min, err_3_max .- err_3_mean, color = colors[1], whiskerwidth = 10)
+    # errorbars!(ax, Ns, err_3_mean, err_3_mean .- err_3_min, err_3_max .- err_3_mean, color = colors[1], whiskerwidth = 10)
 
     scatter!(ax, Ns, err_6_mean, label="6 digits", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
-    errorbars!(ax, Ns, err_6_mean, err_6_mean .- err_6_min, err_6_max .- err_6_mean, color = colors[2], whiskerwidth = 10)
+    # errorbars!(ax, Ns, err_6_mean, err_6_mean .- err_6_min, err_6_max .- err_6_mean, color = colors[2], whiskerwidth = 10)
 
     scatter!(ax, Ns, err_9_mean, label="9 digits", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
-    errorbars!(ax, Ns, err_9_mean, err_9_mean .- err_9_min, err_9_max .- err_9_mean, color = colors[3], whiskerwidth = 10)
+    # errorbars!(ax, Ns, err_9_mean, err_9_mean .- err_9_min, err_9_max .- err_9_mean, color = colors[3], whiskerwidth = 10)
 
     # axislegend(ax_1, position=:lt)
-    ylims!(ax, 10^(-12), 10^(-1))
+    ylims!(ax, 10^(-11), 10^(-2))
     xlims!(ax, 10^(2.9), 10^(6.1))
 end
 

@@ -7,7 +7,7 @@ Random.seed!(1234)
 
 function main()
 
-    filename = "pdmk_runtime_nonuniform_float.csv"
+    filename = joinpath(@__DIR__, "pdmk_runtime_nonuniform_float.csv")
     CSV.write(filename, DataFrame(N = Int[], L = Float64[], ns = Int[], n_levels = Int[], time_propose = Float64[], time_accept = Float64[]))
 
     Ns = [10000, 12689, 16102, 20433, 25929, 32903, 41753, 52983, 67233, 85316, 108263, 137382, 174332, 221221, 280721, 356224, 452036, 573615, 727895, 923670, 1172100, 1487352, 1887392, 2395026, 3039196, 3856622, 4893900, 6210168, 7880462, 10000000]

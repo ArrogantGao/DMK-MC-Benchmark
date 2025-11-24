@@ -8,18 +8,32 @@ Random.seed!(2345)
 
 function benchmark_uniform_sys(N, ns, L, n_trials, df)
 
+    println("N: $N, ns: $ns, L: $L, n_trials: $n_trials")
+
     coords = rand(Float64, 3, N) .* L
     charges = [(-one(Float64))^i for i in 1:N]
 
-    @info "Creating trees"
+    println("Creating trees")
     tree_3 = PDMK4MC.create_tree(coords, charges; params=PDMK4MC.HPDMKParams(L = L, n_per_leaf=ns, init = DIRECT, digits = 3))
-    @info "Tree 3 created"
+    println("Tree 3 created")
     tree_6 = PDMK4MC.create_tree(coords, charges; params=PDMK4MC.HPDMKParams(L = L, n_per_leaf=ns, init = DIRECT, digits = 6))
-    @info "Tree 6 created"
+    println("Tree 6 created")
     tree_9 = PDMK4MC.create_tree(coords, charges; params=PDMK4MC.HPDMKParams(L = L, n_per_leaf=ns, init = DIRECT, digits = 9))
-    @info "Tree 9 created"
+    println("Tree 9 created")
 
     n_levels = tree_depth(tree_3)
+    println("n_levels: $n_levels")
+
+    println("Warming up")
+    PDMK4MC.eval_shift_energy(tree_3, 1, 0.001, 0.001, 0.001)
+    PDMK4MC.update_shift!(tree_3, 1, 0.001, 0.001, 0.001)
+    PDMK4MC.eval_shift_energy(tree_6, 1, 0.001, 0.001, 0.001)
+    PDMK4MC.update_shift!(tree_6, 1, 0.001, 0.001, 0.001)
+    PDMK4MC.eval_shift_energy(tree_9, 1, 0.001, 0.001, 0.001)
+    PDMK4MC.update_shift!(tree_9, 1, 0.001, 0.001, 0.001)
+    println("Warming up done")
+
+    println("Running trials")
 
     te_3 = 0.0
     tu_3 = 0.0
@@ -59,13 +73,13 @@ function main()
     
     rho = 1e4 / 64.63304^3
 
-    benchmark_uniform_sys(1000, 50, (1000/rho)^(1/3), 1000, df)
+    benchmark_uniform_sys(1000, 50, (1000/rho)^(1/3), 10000, df)
 
     N0 = 2000
     for i in 0:10
         N = N0 * 2^i
         L = (N / rho)^(1/3)
-        benchmark_uniform_sys(N, 200, L, 1000, df)
+        benchmark_uniform_sys(N, 200, L, 10000, df)
     end
     return nothing
 end

@@ -1,7 +1,7 @@
 include("utils.jl")
 
 fmmmc_runtime = CSV.read("../fmmmc/runtime/fmmmc_pbc_local_uniform.csv", DataFrame)
-pdmk_runtime = CSV.read("../pdmk/runtime/pdmk_runtime_float_ns200.csv", DataFrame)
+pdmk_runtime = CSV.read("../pdmk/runtime/pdmk_runtime_uniform_float.csv", DataFrame)
 
 fmmmc_runtime_nu = CSV.read("../fmmmc/runtime/fmmmc_pbc_local_nonuniform.csv", DataFrame)
 pdmk_runtime_nu = CSV.read("../pdmk/runtime/pdmk_runtime_nonuniform_float.csv", DataFrame)

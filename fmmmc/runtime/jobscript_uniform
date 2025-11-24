@@ -6,11 +6,12 @@
 #SBATCH --error=job.%J.err
 
 #SBATCH -N1 -n 1
+#SBATCH -c icelake
 #SBATCH -p ccm
+#SBATCH --time=48:00:00
 
 module load python gcc fftw openmpi
 
-# source ~/scratch/venvs/intel_mpi_test/bin/activate
 source /mnt/home/xgao1/venv/fmmmc/bin/activate
 
 module list

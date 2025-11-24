@@ -6,6 +6,7 @@
 #SBATCH --error=job.%J.err
 
 #SBATCH -p ccm
+#SBATCH -C genoa
 #SBATCH -N1 -n 1
 
 module load gcc fftw openmpi

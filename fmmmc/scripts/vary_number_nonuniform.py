@@ -28,8 +28,7 @@ if __name__ == '__main__':
     name = sys.argv[1]
     bc = sys.argv[2]
     npoint = 30
-    # nset = np.logspace(4, 7, npoint)
-    nset = (10000000, )
+    nset = np.logspace(4, 7, npoint)
     
     tset_combined = []
 
@@ -58,7 +57,7 @@ if __name__ == '__main__':
     
 
 
-    combined_name = name + '_nonuniform_new.csv'
+    combined_name = name + '_nonuniform.csv'
 
     tset_combined = np.array(tset_combined)
 
