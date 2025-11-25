@@ -39,7 +39,9 @@ end
             PDMK4MC.form_incoming_pw!(tree_new)
             E_pdmk_new = PDMK4MC.eval_energy(tree_new) * 138.935457644u"kJ/mol" / sim.eps_r
 
-            @info "recontstructed, step_n = $(step_n), E_pdmk_old = $(E_pdmk_old), E_pdmk_new = $(E_pdmk_new)"
+            with_logger(global_logger()) do
+                @info "recontstructed, step_n = $(step_n), E_pdmk_old = $(E_pdmk_old), E_pdmk_new = $(E_pdmk_new)"
+            end
 
             E_pdmk_old = E_pdmk_new
             PDMK4MC.destroy_tree!(tree)

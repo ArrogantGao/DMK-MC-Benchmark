@@ -16,4 +16,4 @@ module list
 export OMP_NUM_THREADS=64
 
 cd /mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation/1_1_salt
-julia -t auto --project=/mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation NaCl_mc.jl
+julia -t auto --project=/mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation NaCl.jl
