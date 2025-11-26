@@ -55,5 +55,6 @@ if __name__ == '__main__':
             
             result_line_data = (N,) + (l[4],) + tset_local_results
             f.write(','.join(map(str, result_line_data)) + '\n')
+            f.flush()
             print(N, l[4], "|", l[0], l[1], l[2], l[3])
 
