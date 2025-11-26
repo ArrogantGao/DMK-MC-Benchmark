@@ -4,11 +4,19 @@ using Molly.Random
 using PDMK4MC
 using ParticleMeshEwald
 
-export MetropolisMonteCarloPDMK
-export random_uniform_translation, random_normal_translation
+export MetropolisMonteCarloPDMK, VerletFix
+export random_uniform_translation, random_normal_translation, random_uniform_translation_fix
 
 function random_uniform_translation(sys::Molly.System{D, <:Any, T}; shift_size=oneunit(eltype(eltype(sys.coords))), rng=Random.default_rng()) where {D, T}
     rand_idx = rand(rng, 1:length(sys.coords))
+    direction = Molly.random_unit_vector(T, D, rng)
+    magnitude = rand(rng, T) * shift_size
+    return (rand_idx, magnitude * direction)
+end 
+
+# the first atom is fixed
+function random_uniform_translation_fix(sys::Molly.System{D, <:Any, T}; shift_size=oneunit(eltype(eltype(sys.coords))), rng=Random.default_rng()) where {D, T}
+    rand_idx = rand(rng, 2:length(sys.coords))
     direction = Molly.random_unit_vector(T, D, rng)
     magnitude = rand(rng, T) * shift_size
     return (rand_idx, magnitude * direction)
@@ -134,5 +142,70 @@ end
 
     end
 
+    return sys
+end
+
+struct VerletFix{T, C}
+    dt::T
+    coupling::C
+    remove_CM_motion::Int
+    fix_idx::Int
+end
+
+function VerletFix(; dt, coupling=NoCoupling(), remove_CM_motion=1, fix_idx=1)
+    return VerletFix(dt, coupling, Int(remove_CM_motion), fix_idx)
+end
+
+@inline function Molly.simulate!(sys,
+                           sim::VerletFix,
+                           n_steps::Integer;
+                           n_threads::Integer=Threads.nthreads(),
+                           run_loggers=true,
+                           rng=Random.default_rng())
+    needs_vir, needs_vir_steps = Molly.needs_virial_schedule(sim.coupling)
+    sys.coords .= Molly.wrap_coords.(sys.coords, (sys.boundary,))
+    !iszero(sim.remove_CM_motion) && Molly.remove_CM_motion!(sys)
+    neighbors = Molly.find_neighbors(sys, sys.neighbor_finder; n_threads=n_threads)
+    forces_t = Molly.zero_forces(sys)
+    buffers = Molly.init_buffers!(sys, n_threads)
+    Molly.apply_loggers!(sys, buffers, neighbors, 0, run_loggers; n_threads=n_threads)
+    accels_t = forces_t ./ Molly.masses(sys)
+    using_constraints = (length(sys.constraints) > 0)
+    if using_constraints
+        cons_coord_storage = zero(sys.coords)
+    end
+
+    for step_n in 1:n_steps
+        needs_vir = (step_n % needs_vir_steps == 0)
+        Molly.forces!(forces_t, sys, neighbors, buffers, Val(needs_vir), step_n; n_threads=n_threads)
+        accels_t .= forces_t ./ Molly.masses(sys)
+
+        sys.velocities .+= accels_t .* sim.dt
+
+        sys.velocities[sim.fix_idx] = zero(sys.velocities[sim.fix_idx])
+
+        if using_constraints
+            cons_coord_storage .= sys.coords
+        end
+        sys.coords .+= sys.velocities .* sim.dt
+        using_constraints && Molly.apply_position_constraints!(sys, cons_coord_storage;
+                                                         n_threads=n_threads)
+
+        if using_constraints
+            sys.velocities .= (sys.coords .- cons_coord_storage) ./ sim.dt
+        end
+
+        sys.coords .= Molly.wrap_coords.(sys.coords, (sys.boundary,))
+
+        if !iszero(sim.remove_CM_motion) && step_n % sim.remove_CM_motion == 0
+            Molly.remove_CM_motion!(sys)
+        end
+        recompute_forces = Molly.apply_coupling!(sys, buffers, sim.coupling, sim, neighbors, step_n;
+                                           n_threads=n_threads, rng=rng)
+
+        neighbors = Molly.find_neighbors(sys, sys.neighbor_finder, neighbors, step_n, recompute_forces; n_threads=n_threads)
+
+        Molly.apply_loggers!(sys, buffers, neighbors, step_n, run_loggers; n_threads=n_threads, current_forces=forces_t)
+    end
     return sys
 end

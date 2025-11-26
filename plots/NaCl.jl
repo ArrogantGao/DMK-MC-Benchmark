@@ -24,10 +24,8 @@ begin
 
     ax_2 = Axis(fig_rdf[1, 2], xlabel = L"\mathcal{E}_r", ylabel = L"P", yticks = (0:0.2:1, [L"0.0", L"0.2", L"0.4", L"0.6", L"0.8", L"1.0"]), xticks = (-6:1:0, [L"10^{-6}", L"10^{-5}", L"10^{-4}", L"10^{-3}", L"10^{-2}", L"10^{-1}", L"10^0"]), xminorticksvisible = true, xminorgridvisible = true, xminorticks = vcat([i .+ log10.(2:2:9) for i in -6:-1]...), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5))
     
-    hist!(ax_2, rel_error, bins=50, normalization = :pdf, color = :blue, 
-    strokewidth = 1, strokecolor = :black)
-    # hist!(ax_2, log10.(e_r), bins = 100, normalization = :pdf)
-    # axislegend(ax_2, position=:lt)
+    hist!(ax_2, rel_error, bins=50, normalization = :pdf, color = :blue, strokewidth = 1, strokecolor = :black, label = "3 digits")
+    axislegend(ax_2, position=:rt)
     xlims!(ax_2, -6, -1)
     ylims!(ax_2, 0, 1)
 

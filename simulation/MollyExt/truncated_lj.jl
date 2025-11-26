@@ -1,6 +1,8 @@
 using Molly
 using LinearAlgebra
 
+using Molly: force_cutoff, pe_cutoff
+
 export ShiftedLennardJones
 
 @kwdef struct ShiftedLennardJones{C, H, S, E, W} <: Molly.PairwiseInteraction
