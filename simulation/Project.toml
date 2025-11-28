@@ -8,6 +8,7 @@ LoggingExtras = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 Molly = "aa0f7f06-fcc0-5ec4-a7f3-a573f33f9c4c"
 PDMK4MC = "e4c8b4d2-5072-4abd-9b0d-7efcb1a2c66b"
 ParticleMeshEwald = "cd47a632-4c33-49da-880f-bcc568aa1a40"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [sources]

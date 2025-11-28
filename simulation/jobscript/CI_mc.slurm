@@ -15,5 +15,5 @@ module list
 
 export OMP_NUM_THREADS=64
 
-cd /mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation/charge_inv
+cd /mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation/colloid
 julia -t auto --project=/mnt/home/xgao1/work/PDMK4MC_Benchmark/simulation mc.jl

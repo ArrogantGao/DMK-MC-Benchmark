@@ -4,8 +4,8 @@ using Random
 using LoggingExtras
 
 Random.seed!(1234)
-# logger = SimpleLogger(open(joinpath(@__DIR__, "md.log"), "w+"))
-# global_logger(logger)
+logger = SimpleLogger(open(joinpath(@__DIR__, "md.log"), "w+"))
+global_logger(logger)
 
 include(joinpath(@__DIR__, "../MollyExt/simulator.jl"))
 include(joinpath(@__DIR__, "../MollyExt/truncated_lj.jl"))
@@ -22,8 +22,8 @@ function main()
 
     temp = 300.0u"K"
 
-    atom_colloid = [Atom(mass=(1.0)u"g/mol", charge=+300.0, σ=1.0u"nm", ϵ=eps_Na)]
-    atoms_na = [Atom(mass=1.0u"g/mol", charge=+1.0, σ=σ_Na, ϵ=eps_Na) for _ in 1:200]
+    atom_colloid = [Atom(mass=(1.0)u"g/mol", charge=+100.0, σ=1.0u"nm", ϵ=eps_Na)]
+    atoms_na = [Atom(mass=1.0u"g/mol", charge=+1.0, σ=σ_Na, ϵ=eps_Na) for _ in 1:400]
     atoms_cl = [Atom(mass=1.0u"g/mol", charge=-1.0, σ=σ_Cl, ϵ=eps_Cl) for _ in 1:500]
     atoms = vcat(atom_colloid, atoms_na, atoms_cl)
     boundary = CubicBoundary(L_box, L_box, L_box)
@@ -43,7 +43,7 @@ function main()
         pairwise_inters=pairwise_inters,
         general_inters=general_inters,
         loggers=(
-            coords=CoordinatesLogger(n_atoms, dims=3),
+            coords=CoordinatesLogger(100, dims=3),
             temp=TemperatureLogger(100),
             energy=PotentialEnergyLogger(100),
         ),
@@ -62,7 +62,7 @@ function main()
     simulate!(sys, simulator, 100_000)
 
     simulator = VerletFix(dt=0.001u"ps", coupling = AndersenThermostat(temp, 1.0u"ps"), fix_idx=1)
-    simulate!(sys, simulator, 500_000)
+    simulate!(sys, simulator, 1_000_000)
 
     jldsave(joinpath(@__DIR__, "data/md.jld2"), sys=sys)
 end

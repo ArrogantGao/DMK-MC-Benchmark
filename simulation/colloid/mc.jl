@@ -22,8 +22,8 @@ function main()
 
     temp = 300.0u"K"
 
-    atom_colloid = [Atom(mass=(1.0)u"g/mol", charge=+300.0, σ=1.0u"nm", ϵ=eps_Na)]
-    atoms_na = [Atom(mass=1.0u"g/mol", charge=+1.0, σ=σ_Na, ϵ=eps_Na) for _ in 1:200]
+    atom_colloid = [Atom(mass=(1.0)u"g/mol", charge=+100.0, σ=1.0u"nm", ϵ=eps_Na)]
+    atoms_na = [Atom(mass=1.0u"g/mol", charge=+1.0, σ=σ_Na, ϵ=eps_Na) for _ in 1:400]
     atoms_cl = [Atom(mass=1.0u"g/mol", charge=-1.0, σ=σ_Cl, ϵ=eps_Cl) for _ in 1:500]
     atoms = vcat(atom_colloid, atoms_na, atoms_cl)
     boundary = CubicBoundary(L_box, L_box, L_box)
@@ -53,7 +53,7 @@ function main()
         pairwise_inters=pairwise_inters,
         neighbor_finder=DistanceNeighborFinder(eligible=trues(n_atoms, n_atoms), dist_cutoff=3.0u"nm", n_steps=100),
         loggers=(
-            coords=CoordinatesLogger(n_atoms, dims=3),
+            coords=CoordinatesLogger(1000, dims=3),
             montecarlo=MonteCarloLogger(),
         ),
     )
@@ -73,7 +73,7 @@ function main()
         accuracy_file = joinpath(@__DIR__, "data/dE_mc_accuracy.csv")
     )
 
-    simulate!(sys, sim, 5000_000, tree)
+    simulate!(sys, sim, 10_000_000, tree)
     jldsave(joinpath(@__DIR__, "data/mc.jld2"), sys=sys)
 end
 
