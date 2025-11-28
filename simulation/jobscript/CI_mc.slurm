@@ -8,6 +8,7 @@
 #SBATCH -p ccm
 #SBATCH -C genoa
 #SBATCH -N1
+#SBATCH --time=48:00:00
 
 module load gcc fftw openmpi
 
