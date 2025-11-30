@@ -33,16 +33,18 @@ function rdf_type(coords_1, coords_2, L, npoints=100)
     return bins, density
 end
 
-function distance_to_center(coords, L, npoints=100)
-    d = L / 2.0 / npoints
+function distance_to_center(coords, L, d_max, npoints=100)
+    d = d_max / npoints
     counts = zeros(Int, npoints)
-    bins = range(0.0, L / 2.0, length=npoints + 1)
+    bins = range(0.0, d_max, length=npoints + 1)
     for coord in coords
         for coord_i in coord
-            rs = norm(coord_i .- [L/2, L/2, L/2])
-            if rs < L / 2.0
-                idx = Int(floor(rs / d)) + 1
-                counts[idx] += 1
+            for mx in -1:1, my in -1:1, mz in -1:1
+                rs = norm(coord_i .- [L/2, L/2, L/2] .+ L * [mx, my, mz])
+                if rs < d_max
+                    idx = Int(floor(rs / d)) + 1
+                    counts[idx] += 1
+                end
             end
         end
     end

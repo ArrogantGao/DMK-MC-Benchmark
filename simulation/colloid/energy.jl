@@ -10,4 +10,4 @@ energy_md = [sys_md.loggers.energy.history[i].val for i in 1:length(sys_md.logge
 
 fig = plot(energy_mc[2:10:end], label="MC", xlabel="Step", ylabel="Energy", title="Energy Comparison")
 plot!(energy_md, label="MD")
-ylims!(-1.5 * 1e5, 100.0)
+ylims!(-20000, 100.0)
