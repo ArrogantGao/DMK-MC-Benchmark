@@ -26,7 +26,7 @@ begin
     
     hist!(ax_2, rel_error, bins=50, normalization = :pdf, color = :blue, strokewidth = 1, strokecolor = :black, label = "3 digits")
     axislegend(ax_2, position=:rt)
-    xlims!(ax_2, -6, -1)
+    xlims!(ax_2, -6, 0)
     ylims!(ax_2, 0, 1)
 
     text!(ax_rdf, 0, 1, space = :relative, text = "(a)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
