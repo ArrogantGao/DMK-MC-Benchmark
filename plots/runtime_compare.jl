@@ -17,8 +17,8 @@ begin
     ax1 = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), xticks = (10.0 .^ (4:7), [L"10^4", L"10^5", L"10^6", L"10^7"]), yticks = (10.0 .^ (-2.5:0.5:0.5), [L"10^{-2.5}", L"10^{-2.0}", L"10^{-1.5}", L"10^{-1.0}", L"10^{-0.5}", L"10^{0.0}", L"10^{0.5}"]))
     ax2 = Axis(fig[1, 2], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), xticks = (10.0 .^ (4:7), [L"10^4", L"10^5", L"10^6", L"10^7"]), yticks = (10.0 .^ (-2.5:0.5:0.5), [L"10^{-2.5}", L"10^{-2.0}", L"10^{-1.5}", L"10^{-1.0}", L"10^{-0.5}", L"10^{0.0}", L"10^{0.5}"]))
 
-    scatter!(ax1, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="PDMK propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax1, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="PDMK accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+    scatter!(ax1, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax1, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax1, fmmmc_ns, fmmmc_runtime.local_propose .* 1000, label="FMM Local propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
     scatter!(ax1, fmmmc_ns, fmmmc_runtime.local_accept .* 1000, label="FMM Local accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
     # scatter!(ax, fmmmc_ns, fmmmc_runtime.multipole_propose .* 1000, label="FMM_M propose", color=colors[5], markersize=markersize, marker=markerstyle[5], strokewidth=strokewidth)
@@ -27,8 +27,8 @@ begin
     xlims!(ax1, 10^(3.9), 10^(7.1))
     ylims!(ax1, 10^(-2.5), 10^(0.5))
 
-    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_propose .* 1000, label="PDMK propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_accept .* 1000, label="PDMK accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax2, fmmmc_ns_nu, fmmmc_runtime_nu.local_propose .* 1000, label="FMM Local propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
     scatter!(ax2, fmmmc_ns_nu, fmmmc_runtime_nu.local_accept .* 1000, label="FMM Local accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
     
@@ -41,6 +41,7 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_log.svg", fig)
+    save("../figs/runtime_compare_terms_log_log.pdf", fig)
     fig
 end
 
@@ -49,8 +50,8 @@ begin
     ax1 = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), xticks = (10.0 .^ (4:7), [L"10^4", L"10^5", L"10^6", L"10^7"]))
     ax2 = Axis(fig[1, 2], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), xticks = (10.0 .^ (4:7), [L"10^4", L"10^5", L"10^6", L"10^7"]))
 
-    scatter!(ax1, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="PDMK propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax1, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="PDMK accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+    scatter!(ax1, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax1, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax1, fmmmc_ns, fmmmc_runtime.local_propose .* 1000, label="FMM Local propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
     scatter!(ax1, fmmmc_ns, fmmmc_runtime.local_accept .* 1000, label="FMM Local accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
     # scatter!(ax, fmmmc_ns, fmmmc_runtime.multipole_propose .* 1000, label="FMM_M propose", color=colors[5], markersize=markersize, marker=markerstyle[5], strokewidth=strokewidth)
@@ -59,8 +60,8 @@ begin
     xlims!(ax1, 10^(3.9), 10^(7.1))
     ylims!(ax1, 0.0, 1.0)
 
-    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_propose .* 1000, label="PDMK propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_accept .* 1000, label="PDMK accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax2, pdmk_ns_nu, pdmk_runtime_nu.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax2, fmmmc_ns_nu, fmmmc_runtime_nu.local_propose .* 1000, label="FMM Local propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
     scatter!(ax2, fmmmc_ns_nu, fmmmc_runtime_nu.local_accept .* 1000, label="FMM Local accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
     
@@ -73,6 +74,7 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_y.svg", fig)
+    save("../figs/runtime_compare_terms_log_y.pdf", fig)
     fig
 end
 
@@ -81,8 +83,8 @@ begin
     fig = Figure(size=(500, 450), fontsize=20)
     ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2)
 
-    scatter!(ax, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="PDMK propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="PDMK accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+    scatter!(ax, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax, fmmmc_ns, fmmmc_runtime.local_propose .* 1000, label="FMM Local propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
     scatter!(ax, fmmmc_ns, fmmmc_runtime.local_accept .* 1000, label="FMM Local accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
     # scatter!(ax, fmmmc_ns, fmmmc_runtime.multipole_propose .* 1000, label="FMM_M propose", color=colors[5], markersize=markersize, marker=markerstyle[5], strokewidth=strokewidth)
@@ -94,6 +96,7 @@ begin
     Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=2, labelsize = 15)
 
     save("../figs/runtime_compare_terms.svg", fig)
+    save("../figs/runtime_compare_terms.pdf", fig)
     fig
 end
 
@@ -101,7 +104,7 @@ begin
     fig = Figure(size=(500, 450), fontsize=20)
     ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2)
 
-    scatter!(ax, pdmk_ns, (pdmk_runtime.time_propose .+ pdmk_runtime.time_accept) .* 1000, label="PDMK", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+    scatter!(ax, pdmk_ns, (pdmk_runtime.time_propose .+ pdmk_runtime.time_accept) .* 1000, label="DMK-MC", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
     scatter!(ax, fmmmc_ns, (fmmmc_runtime.local_propose .+ fmmmc_runtime.local_accept) .* 1000, label="FMM Local", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     # scatter!(ax, fmmmc_ns, (fmmmc_runtime.multipole_propose .+ fmmmc_runtime.multipole_accept) .* 1000, label="FMM Multipole", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
 
@@ -111,5 +114,6 @@ begin
     Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=1, labelsize = 15)
 
     save("../figs/runtime_compare_total.svg", fig)
+    save("../figs/runtime_compare_total.pdf", fig)
     fig
 end
