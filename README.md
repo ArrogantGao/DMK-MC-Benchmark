@@ -16,9 +16,9 @@ I only used the scripts `fmmmc/scripts/vary_number_uniform.py` and `fmmmc/script
 
 ## pdmk
 
-One have to clone the PDMK4MC repo and compile the C++ code locally, then in julia REPL, run 
+One have to clone the DMK-MC repo and compile the C++ code locally, then in julia REPL, run 
 ```
-] dev /path/to/PDMK4MC/julia/
+] dev /path/to/DMK-MC/julia/
 ```
 to add the package to the Julia environment. Also, remember to change the `MPIPreferences` to `OpenMPI` to be compatible with the C++ code.
 
@@ -30,4 +30,4 @@ in the julia REPL, it is a lightweight implementation of the Particle Mesh Ewald
 
 ## simulation
 
-Similarly, one have to manually install `PDMK4MC` and `ParticleMeshEwald.jl` in the simulation code.
+Similarly, one have to manually install `DMK-MC` and `ParticleMeshEwald.jl` in the simulation code.
