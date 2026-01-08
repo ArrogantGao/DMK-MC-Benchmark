@@ -1,6 +1,6 @@
-# PDMK4MC_Benchmark
+# DMK-MC-Benchmark
 
-This repository is used to benchmark the performance of PDMK4MC's C++ implementation at [PDMK4MC](https://github.com/ArrogantGao/PDMK4MC), which is wrapped in Julia.
+This repository is used to benchmark the performance of DMK-MC's C++ implementation at [DMK-MC](https://github.com/flatironinstitute/DMK-MC), which is wrapped in Julia.
 
 The results are organized as follows:
 - `fmmmc/` is for benchmarking the FMM-based MC algorithm in https://doi.org/10.1016/j.jcp.2020.110099, with their own code. I slightly modified the number of particles and the distribution.
