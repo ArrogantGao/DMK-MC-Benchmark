@@ -91,3 +91,4 @@ end
 
 fig
 save("../figs/uniform_accuracy.svg", fig)
+save("../figs/uniform_accuracy.pdf", fig)
