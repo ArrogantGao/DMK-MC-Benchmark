@@ -102,6 +102,7 @@ begin
     text!(ax_4, 0, 1, space = :relative, text = "(d)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/accuracy_runtime.svg", fig)
+    save("../figs/accuracy_runtime.pdf", fig)
 
     fig
 end

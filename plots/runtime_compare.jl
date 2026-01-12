@@ -62,6 +62,7 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_log.svg", fig)
+    save("../figs/runtime_compare_terms_log_log.pdf", fig)
     fig
 end
 
@@ -103,6 +104,7 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_y.svg", fig)
+    save("../figs/runtime_compare_terms_log_y.pdf", fig)
     fig
 end
 

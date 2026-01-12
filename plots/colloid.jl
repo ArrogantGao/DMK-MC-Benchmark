@@ -110,5 +110,6 @@ begin
     text!(ax_2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save(joinpath(@__DIR__, "../figs/colloid_sim_P.svg"), fig)
+    save(joinpath(@__DIR__, "../figs/colloid_sim_P.pdf"), fig)
     fig
 end
