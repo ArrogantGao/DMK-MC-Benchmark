@@ -1,5 +1,7 @@
 include("utils.jl")
 
+using LsqFit
+
 function plot_accuracy!(df, ax)
     Ns = unique(df.N)
     err_3_mean, err_6_mean, err_9_mean = zeros(length(Ns)), zeros(length(Ns)), zeros(length(Ns))
@@ -52,6 +54,17 @@ function plot_runtime!(df, ax, ymax)
     time_update_3 = df.tu_3
     time_update_6 = df.tu_6
     time_update_9 = df.tu_9
+
+    # fit the runtime for evaluation, the runtime should be of y = a * log x
+    for (i, data) in enumerate([time_eval_3, time_eval_6, time_eval_9]) 
+        model(x, p) = p[1] .* log10.(x) .+ p[2]
+        p0 = [1.0, 1.0]
+        fit = curve_fit(model, Ns, data .* 1000, p0)
+        x_fit = logrange(10^(2.9), 10^(6.1), 100)
+        y_fit = model(x_fit, fit.param)
+        lines!(ax, x_fit, y_fit, color=colors[i], linewidth=2, linestyle = :dot)
+    end
+
     scatter!(ax, Ns, time_eval_3 .* 1000, color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
     scatter!(ax, Ns, time_eval_6 .* 1000, color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
     scatter!(ax, Ns, time_eval_9 .* 1000, color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
@@ -70,9 +83,9 @@ begin
     df_runtime = CSV.read("../pdmk/runtime/uniform_sys.csv", DataFrame)
     df_runtime_nu = CSV.read("../pdmk/runtime/nonuniform_sys.csv", DataFrame)
 
-    fig = Figure(size=(900, 850), fontsize=20)
-    ax_1 = Axis(fig[1, 1], xlabel=L"N", ylabel=L"\mathcal{E}_r", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), yticks = (10.0 .^ (-12:-1), [L"10^{-12}", L"10^{-11}", L"10^{-10}", L"10^{-9}", L"10^{-8}", L"10^{-7}", L"10^{-6}", L"10^{-5}", L"10^{-4}", L"10^{-3}", L"10^{-2}", L"10^{-1}"]), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]))
-    ax_2 = Axis(fig[1, 2], xlabel=L"N", ylabel=L"\mathcal{E}_r", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), yticks = (10.0 .^ (-12:-1), [L"10^{-12}", L"10^{-11}", L"10^{-10}", L"10^{-9}", L"10^{-8}", L"10^{-7}", L"10^{-6}", L"10^{-5}", L"10^{-4}", L"10^{-3}", L"10^{-2}", L"10^{-1}"]), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]))
+    fig = Figure(size=(900, 800), fontsize=20)
+    ax_1 = Axis(fig[1, 1], xlabel=L"N", ylabel=L"\mathcal{E}_r \left(\Delta U \right)", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), yticks = (10.0 .^ (-12:-1), [L"10^{-12}", L"10^{-11}", L"10^{-10}", L"10^{-9}", L"10^{-8}", L"10^{-7}", L"10^{-6}", L"10^{-5}", L"10^{-4}", L"10^{-3}", L"10^{-2}", L"10^{-1}"]), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]))
+    ax_2 = Axis(fig[1, 2], xlabel=L"N", ylabel=L"\mathcal{E}_r \left(\Delta U \right)", xscale = log10, yscale = log10, xminorticksvisible = true, xminorgridvisible = true, xminorticks = IntervalsBetween(5), yminorticksvisible = true, yminorgridvisible = true, yminorticks = IntervalsBetween(5), yticks = (10.0 .^ (-12:-1), [L"10^{-12}", L"10^{-11}", L"10^{-10}", L"10^{-9}", L"10^{-8}", L"10^{-7}", L"10^{-6}", L"10^{-5}", L"10^{-4}", L"10^{-3}", L"10^{-2}", L"10^{-1}"]), xticks = (10.0 .^ (3:7), [L"10^3", L"10^4", L"10^5", L"10^6", L"10^7"]))
 
     plot_accuracy!(df, ax_1)
     plot_accuracy!(df_nu, ax_2)
@@ -87,8 +100,8 @@ begin
     text!(ax_2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
     text!(ax_3, 0, 1, space = :relative, text = "(c)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
     text!(ax_4, 0, 1, space = :relative, text = "(d)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
-end
 
-fig
-save("../figs/uniform_accuracy.svg", fig)
-save("../figs/uniform_accuracy.pdf", fig)
+    save("../figs/accuracy_runtime.svg", fig)
+
+    fig
+end

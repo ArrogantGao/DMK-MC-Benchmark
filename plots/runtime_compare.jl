@@ -62,7 +62,6 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_log.svg", fig)
-    save("../figs/runtime_compare_terms_log_log.pdf", fig)
     fig
 end
 
@@ -104,44 +103,43 @@ begin
     text!(ax2, 0, 1, space = :relative, text = "(b)", fontsize = 25, align = (:left, :top), offset = (12, -2), font = :bold)
 
     save("../figs/runtime_compare_terms_log_y.svg", fig)
-    save("../figs/runtime_compare_terms_log_y.pdf", fig)
     fig
 end
 
 
-begin
-    fig = Figure(size=(500, 450), fontsize=20)
-    ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2) # x-legend 在此
+# begin
+#     fig = Figure(size=(500, 450), fontsize=20)
+#     ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2) # x-legend 在此
 
-    scatter!(ax, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
-    scatter!(ax, fmmmc_ns, fmmmc_runtime.local_propose .* 1000, label="FMM-MC propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
-    scatter!(ax, fmmmc_ns, fmmmc_runtime.local_accept .* 1000, label="FMM-MC accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
+#     scatter!(ax, pdmk_ns, pdmk_runtime.time_propose .* 1000, label="DMK-MC propose", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+#     scatter!(ax, pdmk_ns, pdmk_runtime.time_accept .* 1000, label="DMK-MC accept", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+#     scatter!(ax, fmmmc_ns, fmmmc_runtime.local_propose .* 1000, label="FMM-MC propose", color=colors[3], markersize=markersize, marker=markerstyle[3], strokewidth=strokewidth)
+#     scatter!(ax, fmmmc_ns, fmmmc_runtime.local_accept .* 1000, label="FMM-MC accept", color=colors[4], markersize=markersize, marker=markerstyle[4], strokewidth=strokewidth)
 
-    xlims!(ax, 10^(3.9), 10^(7.1))
-    ylims!(ax, 0.0, 1.0)
+#     xlims!(ax, 10^(3.9), 10^(7.1))
+#     ylims!(ax, 0.0, 1.0)
 
-    Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=2, labelsize = 15)
+#     Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=2, labelsize = 15)
 
-    save("../figs/runtime_compare_terms.svg", fig)
-    save("../figs/runtime_compare_terms.pdf", fig)
-    fig
-end
+#     save("../figs/runtime_compare_terms.svg", fig)
+#     save("../figs/runtime_compare_terms.pdf", fig)
+#     fig
+# end
 
 
-begin
-    fig = Figure(size=(500, 450), fontsize=20)
-    ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2) # x-legend 在此
+# begin
+#     fig = Figure(size=(500, 450), fontsize=20)
+#     ax = Axis(fig[1, 1], xlabel=L"N", ylabel=L"$T$ (ms)", xscale = log10, yticks = 0.0:0.1:1.2) # x-legend 在此
 
-    scatter!(ax, pdmk_ns, (pdmk_runtime.time_propose .+ pdmk_runtime.time_accept) .* 1000, label="DMK-MC", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
-    scatter!(ax, fmmmc_ns, (fmmmc_runtime.local_propose .+ fmmmc_runtime.local_accept) .* 1000, label="FMM-MC", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
+#     scatter!(ax, pdmk_ns, (pdmk_runtime.time_propose .+ pdmk_runtime.time_accept) .* 1000, label="DMK-MC", color=colors[1], markersize=markersize, marker=markerstyle[1], strokewidth=strokewidth)
+#     scatter!(ax, fmmmc_ns, (fmmmc_runtime.local_propose .+ fmmmc_runtime.local_accept) .* 1000, label="FMM-MC", color=colors[2], markersize=markersize, marker=markerstyle[2], strokewidth=strokewidth)
 
-    xlims!(ax, 10^(3.9), 10^(7.1))
-    ylims!(ax, 0.0, 1.1)
+#     xlims!(ax, 10^(3.9), 10^(7.1))
+#     ylims!(ax, 0.0, 1.1)
 
-    Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=1, labelsize = 15)
+#     Legend(fig[0, 1], ax, orientation=:horizontal, nbanks=1, labelsize = 15)
 
-    save("../figs/runtime_compare_total.svg", fig)
-    save("../figs/runtime_compare_total.pdf", fig)
-    fig
-end
+#     save("../figs/runtime_compare_total.svg", fig)
+#     save("../figs/runtime_compare_total.pdf", fig)
+#     fig
+# end
