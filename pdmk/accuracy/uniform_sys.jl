@@ -88,13 +88,13 @@ function main()
     
     rho = 1e4 / 64.63304^3
 
-    accuracy_uniform_sys(1000, 50, (1000/rho)^(1/3), 20, df)
+    accuracy_uniform_sys(1000, 50, (1000/rho)^(1/3), 1000, df)
 
     N0 = 2000
     for i in 0:10
         N = N0 * 2^i
         L = (N / rho)^(1/3)
-        accuracy_uniform_sys(N, 200, L, 20, df)
+        accuracy_uniform_sys(N, 200, L, 1000, df)
     end
     return nothing
 end

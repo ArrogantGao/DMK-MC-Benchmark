@@ -12,8 +12,9 @@ markerstyle = [:rect, :circle, :diamond, :utriangle, :dtriangle, :rtriangle, :lt
 strokecolor = :black
 strokewidth = 1.0
 
+# value to large, take log10 to get the geometric mean
 function geometric_mean(x)
-    return prod(Float64.(x))^(1/length(x))
+    return exp(mean(log.(x)))
 end
 
 function max_n(x, n)

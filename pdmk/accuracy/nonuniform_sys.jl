@@ -96,16 +96,15 @@ end
 
 function main()
     df = joinpath(@__DIR__, "nonuniform_sys.csv")
-    # CSV.write(df, DataFrame(N = Int[], ns = Int[], L = Float64[], n_trials = Int[], n_levels = Int[], i = Int[], abs_err_3 = Float64[], rel_err_3 = Float64[], abs_err_6 = Float64[], rel_err_6 = Float64[], abs_err_9 = Float64[], rel_err_9 = Float64[]))
+    CSV.write(df, DataFrame(N = Int[], ns = Int[], L = Float64[], n_trials = Int[], n_levels = Int[], i = Int[], abs_err_3 = Float64[], rel_err_3 = Float64[], abs_err_6 = Float64[], rel_err_6 = Float64[], abs_err_9 = Float64[], rel_err_9 = Float64[]))
     
     rho = 1e4 / 64.63304^3
 
     N0 = 1000
-    # for i in 0:11
-    for i in [10]
+    for i in 0:11
         N = N0 * 2^i
         L = (N / rho)^(1/3)
-        accuracy_nonuniform_sys(N, 200, L, 20, df)
+        accuracy_nonuniform_sys(N, 200, L, 1000, df)
     end
     return nothing
 end

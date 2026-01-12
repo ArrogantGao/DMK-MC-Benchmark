@@ -14,9 +14,9 @@ function plot_accuracy!(df, ax)
         # err_6 = df[df.N .== N, :abs_err_6]
         # err_9 = df[df.N .== N, :abs_err_9]
 
-        err_3 = df[df.N .== N, :rel_err_3]
-        err_6 = df[df.N .== N, :rel_err_6]
-        err_9 = df[df.N .== N, :rel_err_9]
+        err_3 = df[df.N .== N, :rel_err_3] .+ 1e-15
+        err_6 = df[df.N .== N, :rel_err_6] .+ 1e-15
+        err_9 = df[df.N .== N, :rel_err_9] .+ 1e-15
 
         err_3_mean[i] = geometric_mean(err_3)
         err_6_mean[i] = geometric_mean(err_6)
